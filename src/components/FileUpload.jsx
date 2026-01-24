@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../App.css'
 
 const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
   const [isDragging, setIsDragging] = useState(false)
@@ -50,64 +51,18 @@ const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
     onClear()
   }
 
-  const containerStyle = {
-    marginBottom: '30px'
-  }
-
-  const dropZoneStyle = {
-    border: isDragging ? '2px solid #4CAF50' : '2px dashed #cccccc',
-    padding: '40px',
-    backgroundColor: isDragging ? '#c8e6c9' : '#fafafa',
-    textAlign: 'center',
-    cursor: 'pointer',
-    borderRadius: '4px'
-  }
-
-  const errorStyle = {
-    color: 'red',
-    backgroundColor: '#fee',
-    padding: '10px',
-    marginBottom: '20px',
-    borderRadius: '4px',
-    border: '1px solid #fcc'
-  }
-
-  const fileInfoStyle = {
-    marginTop: '20px',
-    padding: '10px',
-    backgroundColor: '#f0f0f0',
-    borderRadius: '4px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }
-
-  const clearButtonStyle = {
-    backgroundColor: '#f44336',
-    color: 'white',
-    padding: '8px 16px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px'
-  }
-
-  const inputStyle = {
-    display: 'none'
-  }
-
   return (
-    <div style={containerStyle}>
-      <h2 style={{ marginBottom: '20px' }}>Upload Excel File</h2>
-      
+    <div className="file-upload">
+      <h2>Upload Excel File</h2>
+
       {error && (
-        <div style={errorStyle}>
+        <div className="error-message">
           {error}
         </div>
       )}
 
       <div
-        style={dropZoneStyle}
+        className={`drop-zone ${isDragging ? 'dragging' : ''}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -117,23 +72,23 @@ const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
           id="fileInput"
           type="file"
           accept=".xlsx, .xls"
-          style={inputStyle}
+          style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-        <p style={{ margin: 0, fontSize: '16px' }}>
+        <p>
           Drag and drop your Excel file here, or click to browse
         </p>
-        <p style={{ margin: '10px 0 0 0', fontSize: '14px', color: '#666' }}>
+        <p className="subtext">
           Supports .xlsx and .xls files (max 10MB)
         </p>
       </div>
 
       {fileName && (
-        <div style={fileInfoStyle}>
+        <div className="file-info">
           <span>
             <strong>Selected file:</strong> {fileName}
           </span>
-          <button style={clearButtonStyle} onClick={handleClear}>
+          <button className="clear-button" onClick={handleClear}>
             Clear
           </button>
         </div>

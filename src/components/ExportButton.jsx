@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../App.css'
 
 const ExportButton = ({ groupedData, onExport }) => {
   const [isExporting, setIsExporting] = useState(false)
@@ -20,7 +21,7 @@ const ExportButton = ({ groupedData, onExport }) => {
       }
       setMessage('Excel file exported successfully!')
       setMessageType('success')
-    } catch (error) {
+    } catch {
       setMessage('Export failed. Please try again.')
       setMessageType('error')
     } finally {
@@ -28,44 +29,25 @@ const ExportButton = ({ groupedData, onExport }) => {
     }
   }
 
-  const containerStyle = {
-    marginBottom: '30px'
-  }
-
-  const buttonStyle = {
-    backgroundColor: (!groupedData || groupedData.length === 0) ? '#cccccc' : '#4CAF50',
-    color: 'white',
-    padding: '12px 24px',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: (!groupedData || groupedData.length === 0) ? 'not-allowed' : 'pointer',
-    opacity: isExporting ? 0.6 : 1
-  }
-
-  const messageStyle = {
-    marginTop: '10px',
-    padding: '10px',
-    borderRadius: '4px',
-    backgroundColor: messageType === 'success' ? '#d4edda' : '#f8d7da',
-    color: messageType === 'success' ? '#155724' : '#721c24',
-    border: messageType === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb'
-  }
-
   const isDisabled = !groupedData || groupedData.length === 0
 
   return (
-    <div style={containerStyle}>
+    <div className="export-button">
       <button
-        style={buttonStyle}
+        className={`export-btn ${isExporting ? 'loading' : ''}`}
         onClick={handleExport}
         disabled={isDisabled}
       >
-        {isExporting ? 'Exporting...' : 'Export to Excel'}
+        {isExporting ? (
+          <>
+            <span className="spinner"></span>
+            Exporting...
+          </>
+        ) : 'Export to Excel'}
       </button>
 
       {message && (
-        <div style={messageStyle}>
+        <div className={`message ${messageType}`}>
           {message}
         </div>
       )}

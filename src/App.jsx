@@ -5,6 +5,7 @@ import ResultsTable from './components/ResultsTable.jsx'
 import ExportButton from './components/ExportButton.jsx'
 import { parseExcel } from './utils/excelParser.js'
 import { groupColors } from './utils/colorGrouper.js'
+import './App.css'
 
 const App = () => {
   const [parsedData, setParsedData] = useState([])
@@ -104,64 +105,24 @@ const App = () => {
     performGrouping()
   }, [parsedData, tolerances])
 
-  const containerStyle = {
-    padding: '20px',
-    maxWidth: '1200px',
-    margin: '0 auto'
-  }
-
-  const headerStyle = {
-    marginBottom: '30px',
-    fontSize: '28px'
-  }
-
-  const errorStyle = {
-    color: 'red',
-    backgroundColor: '#fee',
-    padding: '10px',
-    marginBottom: '20px',
-    borderRadius: '4px',
-    border: '1px solid #fcc'
-  }
-
-  const clearButtonStyle = {
-    backgroundColor: '#f44336',
-    color: 'white',
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    marginBottom: '30px'
-  }
-
-  const loadingStyle = {
-    padding: '10px',
-    backgroundColor: '#e3f2fd',
-    color: '#1976d2',
-    marginBottom: '20px',
-    borderRadius: '4px',
-    textAlign: 'center'
-  }
-
   return (
-    <div style={containerStyle}>
-      <h1 style={headerStyle}>Color Grouping Tool</h1>
+    <div className="app">
+      <h1>Color Grouping Tool</h1>
 
       {error && !isLoading && !isGrouping && (
-        <div style={errorStyle}>
+        <div className="error-message">
           {error}
         </div>
       )}
 
       {isLoading && (
-        <div style={loadingStyle}>
+        <div className="loading-message">
           Processing file...
         </div>
       )}
 
       {isGrouping && (
-        <div style={loadingStyle}>
+        <div className="loading-message">
           Grouping colors...
         </div>
       )}
@@ -181,7 +142,7 @@ const App = () => {
           />
 
           <button
-            style={clearButtonStyle}
+            className="clear-data-button"
             onClick={handleClearData}
           >
             Clear Data
