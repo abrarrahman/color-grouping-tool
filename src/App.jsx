@@ -5,6 +5,7 @@ import ResultsTable from './components/ResultsTable.jsx'
 import ExportButton from './components/ExportButton.jsx'
 import { parseExcel } from './utils/excelParser.js'
 import { groupColors } from './utils/colorGrouper.js'
+import { DEFAULT_TOLERANCES } from './constants.js'
 import './App.css'
 
 const App = () => {
@@ -16,17 +17,7 @@ const App = () => {
   const [isGrouping, setIsGrouping] = useState(false)
   const [fileName, setFileName] = useState(null)
 
-  const [tolerances, setTolerances] = useState({
-    deltaL: 0.15,
-    deltaA: 0.08,
-    deltaB: 0.10
-  })
-
-  const defaultTolerances = {
-    deltaL: 0.15,
-    deltaA: 0.08,
-    deltaB: 0.10
-  }
+  const [tolerances, setTolerances] = useState(DEFAULT_TOLERANCES)
 
   const handleFileSelect = async ({ file, error: fileError }) => {
     if (fileError) {
@@ -71,7 +62,7 @@ const App = () => {
     setParsedData([])
     setGroupedData([])
     setIsFileLoaded(false)
-    setTolerances(defaultTolerances)
+    setTolerances(DEFAULT_TOLERANCES)
     setFileName(null)
     setError(null)
   }
@@ -102,7 +93,7 @@ const App = () => {
       }
     }
 
-    performGrouping()
+    void performGrouping()
   }, [parsedData, tolerances])
 
   return (

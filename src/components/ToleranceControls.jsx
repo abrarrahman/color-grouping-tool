@@ -1,12 +1,8 @@
 import React from 'react'
+import { DEFAULT_TOLERANCES } from '../constants.js'
 import '../App.css'
 
 const ToleranceControls = ({ tolerances, onToleranceChange }) => {
-  const defaultTolerances = {
-    deltaL: 0.15,
-    deltaA: 0.08,
-    deltaB: 0.10
-  }
 
   const handleChange = (dimension, value) => {
     const numValue = parseFloat(value)
@@ -23,7 +19,7 @@ const ToleranceControls = ({ tolerances, onToleranceChange }) => {
   const handleReset = (dimension) => {
     onToleranceChange({
       ...tolerances,
-      [dimension]: defaultTolerances[dimension]
+      [dimension]: DEFAULT_TOLERANCES[dimension]
     })
   }
 
