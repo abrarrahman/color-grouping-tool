@@ -1,5 +1,5 @@
 export const DEFAULT_TOLERANCES = {
-  deltaL: 0.15,
-  deltaA: 0.08,
-  deltaB: 0.10
+  deltaL: 0.38,
+  deltaA: 0.18,
+  deltaB: 0.34
 }

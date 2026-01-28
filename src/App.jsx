@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import FileUpload from './components/FileUpload.jsx'
 import ToleranceControls from './components/ToleranceControls.jsx'
 import ResultsTable from './components/ResultsTable.jsx'
-import ExportButton from './components/ExportButton.jsx'
 import { parseExcel } from './utils/excelParser.js'
 import { groupColors } from './utils/colorGrouper.js'
 import { DEFAULT_TOLERANCES } from './constants.js'
@@ -142,16 +141,10 @@ const App = () => {
       )}
 
       {groupedData.length > 0 && (
-        <>
-          <ResultsTable
-            groupedData={groupedData}
-          />
-
-          <ExportButton
-            groupedData={groupedData}
-            onExport={handleExport}
-          />
-        </>
+        <ResultsTable
+          groupedData={groupedData}
+          onExport={handleExport}
+        />
       )}
     </div>
   )
