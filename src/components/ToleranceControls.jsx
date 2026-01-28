@@ -40,9 +40,6 @@ const ToleranceControls = ({ tolerances, onToleranceChange }) => {
               value={tolerances.deltaL}
               onChange={(e) => handleChange('deltaL', e.target.value)}
             />
-            <span className="current-value">
-              Current: {tolerances.deltaL.toFixed(2)}
-            </span>
             <button
               className="reset-button"
               onClick={() => handleReset('deltaL')}
@@ -64,9 +61,6 @@ const ToleranceControls = ({ tolerances, onToleranceChange }) => {
               value={tolerances.deltaA}
               onChange={(e) => handleChange('deltaA', e.target.value)}
             />
-            <span className="current-value">
-              Current: {tolerances.deltaA.toFixed(2)}
-            </span>
             <button
               className="reset-button"
               onClick={() => handleReset('deltaA')}
@@ -88,9 +82,6 @@ const ToleranceControls = ({ tolerances, onToleranceChange }) => {
               value={tolerances.deltaB}
               onChange={(e) => handleChange('deltaB', e.target.value)}
             />
-            <span className="current-value">
-              Current: {tolerances.deltaB.toFixed(2)}
-            </span>
             <button
               className="reset-button"
               onClick={() => handleReset('deltaB')}

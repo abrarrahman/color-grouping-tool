@@ -1,40 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import '../App.css'
 
-const ResultsTable = ({ groupedData, onExport }) => {
+const ResultsTable = ({ groupedData }) => {
   const [expandedGroups, setExpandedGroups] = useState({})
-  const [isExporting, setIsExporting] = useState(false)
-  const [message, setMessage] = useState(null)
-  const [messageType, setMessageType] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
   useEffect(() => {
     setCurrentPage(1)
   }, [groupedData])
-
-  const handleExport = async () => {
-    if (!groupedData || groupedData.length === 0) {
-      return
-    }
-
-    setIsExporting(true)
-    setMessage(null)
-    setMessageType(null)
-
-    try {
-      if (onExport) {
-        await onExport()
-      }
-      setMessage('Excel file exported successfully!')
-      setMessageType('success')
-    } catch {
-      setMessage('Export failed. Please try again.')
-      setMessageType('error')
-    } finally {
-      setIsExporting(false)
-    }
-  }
 
   const toggleGroup = (groupId) => {
     setExpandedGroups(prev => ({
@@ -79,25 +53,7 @@ const ResultsTable = ({ groupedData, onExport }) => {
     <div className="results-table">
       <div className="results-header">
         <h2>Results</h2>
-        <button
-          className={`export-btn ${isExporting ? 'loading' : ''}`}
-          onClick={handleExport}
-          disabled={!groupedData || groupedData.length === 0}
-        >
-          {isExporting ? (
-            <>
-              <span className="spinner"></span>
-              Exporting...
-            </>
-          ) : 'Export to Excel'}
-        </button>
       </div>
-
-      {message && (
-        <div className={`message ${messageType}`}>
-          {message}
-        </div>
-      )}
 
       <div className="summary-header">
         <strong>Total Groups:</strong> {totalGroups}, <strong>Total Reels:</strong> {totalReels}
