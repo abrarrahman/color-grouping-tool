@@ -164,17 +164,28 @@
 .clear-data-button {
   background-color: #f44336;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  margin-bottom: 30px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .clear-data-button:hover {
   background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+.clear-data-button:active {
+  transform: translateY(0);
+}
+
+/* Results Buttons Container */
+.results-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 /* Results Table Component */
@@ -183,9 +194,6 @@
 }
 
 .results-table .results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -193,7 +201,7 @@
   margin: 0;
 }
 
-.results-table .results-header .export-btn {
+.export-btn {
   background-color: #4CAF50;
   color: white;
   padding: 8px 16px;
@@ -204,21 +212,21 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.results-table .results-header .export-btn:hover:not(:disabled) {
+.export-btn:hover:not(:disabled) {
   background-color: #45a049;
   transform: translateY(-1px);
 }
 
-.results-table .results-header .export-btn:active:not(:disabled) {
+.export-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.results-table .results-header .export-btn:disabled {
+.export-btn:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.results-table .results-header .export-btn.loading {
+.export-btn.loading {
   opacity: 0.6;
   cursor: wait;
 }
@@ -464,4 +472,129 @@ input:focus-visible {
 .error-message,
 .export-button .message {
   color: #333;
+}
+
+/* Pagination Controls */
+.results-table .pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.results-table .pagination-info {
+  display: flex;
+  align-items: center;
+}
+
+.results-table .pagination-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.results-table .pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.results-table .pagination-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.results-table .pagination-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.results-table .pagination-btn:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: translateY(-1px);
+}
+
+.results-table .pagination-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.results-table .pagination-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.results-table .page-number {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.results-table .pagination-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.results-table .pagination-size label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.results-table .page-size-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.results-table .page-size-select:hover {
+  border-color: #4CAF50;
+}
+
+.results-table .page-size-select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+/* Responsive Design for Pagination */
+@media (max-width: 768px) {
+  .results-table .pagination {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .results-table .pagination-controls {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .results-table .pagination-nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .results-table .pagination-size {
+    width: 100%;
+    justify-content: center;
+  }
 }

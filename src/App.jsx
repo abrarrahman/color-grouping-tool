@@ -17,6 +17,7 @@ const App = () => {
   const [fileName, setFileName] = useState(null)
 
   const [tolerances, setTolerances] = useState(DEFAULT_TOLERANCES)
+  const [isExporting, setIsExporting] = useState(false)
 
   const handleFileSelect = async ({ file, error: fileError }) => {
     if (fileError) {
@@ -67,12 +68,15 @@ const App = () => {
   }
 
   const handleExport = async () => {
+    setIsExporting(true)
     try {
       const { exportToExcel } = await import('./utils/excelExporter.js')
       await exportToExcel(groupedData)
     } catch (err) {
       setError('Export failed. Please try again.')
       setTimeout(() => setError(null), 3000)
+    } finally {
+      setIsExporting(false)
     }
   }
 
@@ -125,26 +129,38 @@ const App = () => {
       />
 
       {isFileLoaded && (
-        <>
+        <div style={{ marginTop: '20px' }}>
           <ToleranceControls
             tolerances={tolerances}
             onToleranceChange={handleToleranceChange}
           />
-
-          <button
-            className="clear-data-button"
-            onClick={handleClearData}
-          >
-            Clear Data
-          </button>
-        </>
+        </div>
       )}
 
       {groupedData.length > 0 && (
-        <ResultsTable
-          groupedData={groupedData}
-          onExport={handleExport}
-        />
+        <>
+          <div className="results-buttons">
+            <button
+              className="clear-data-button"
+              onClick={handleClearData}
+            >
+              Clear Data
+            </button>
+            <button
+              className={`export-btn ${isExporting ? 'loading' : ''}`}
+              onClick={handleExport}
+              disabled={isExporting}
+            >
+              {isExporting ? (
+                <>
+                  <span className="spinner"></span>
+                  Exporting...
+                </>
+              ) : 'Export to Excel'}
+            </button>
+          </div>
+          <ResultsTable groupedData={groupedData} />
+        </>
       )}
     </div>
   )

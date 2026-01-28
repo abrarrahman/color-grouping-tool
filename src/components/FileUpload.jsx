@@ -53,7 +53,7 @@ const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
 
   return (
     <div className="file-upload">
-      <h2>Upload Excel File</h2>
+      {!fileName && <h2>Upload Excel File</h2>}
 
       {error && (
         <div className="error-message">
@@ -61,29 +61,7 @@ const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
         </div>
       )}
 
-      <div
-        className={`drop-zone ${isDragging ? 'dragging' : ''}`}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        onClick={() => document.getElementById('fileInput').click()}
-      >
-        <input
-          id="fileInput"
-          type="file"
-          accept=".xlsx, .xls"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        <p>
-          Drag and drop your Excel file here, or click to browse
-        </p>
-        <p className="subtext">
-          Supports .xlsx and .xls files (max 10MB)
-        </p>
-      </div>
-
-      {fileName && (
+      {fileName ? (
         <div className="file-info">
           <span>
             <strong>Selected file:</strong> {fileName}
@@ -91,6 +69,28 @@ const FileUpload = ({ onFileSelect, onClear, fileName, error }) => {
           <button className="clear-button" onClick={handleClear}>
             Clear
           </button>
+        </div>
+      ) : (
+        <div
+          className={`drop-zone ${isDragging ? 'dragging' : ''}`}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onClick={() => document.getElementById('fileInput').click()}
+        >
+          <input
+            id="fileInput"
+            type="file"
+            accept=".xlsx, .xls"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <p>
+            Drag and drop your Excel file here, or click to browse
+          </p>
+          <p className="subtext">
+            Supports .xlsx and .xls files (max 10MB)
+          </p>
         </div>
       )}
     </div>
