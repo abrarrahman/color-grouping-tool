@@ -126,10 +126,12 @@ const App = () => {
 
       {isFileLoaded && (
         <>
-          <ToleranceControls
-            tolerances={tolerances}
-            onToleranceChange={handleToleranceChange}
-          />
+          <div style={{ marginTop: '20px' }}>
+            <ToleranceControls
+              tolerances={tolerances}
+              onToleranceChange={handleToleranceChange}
+            />
+          </div>
 
           <button
             className="clear-data-button"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import '../App.css'
 
 const ResultsTable = ({ groupedData, onExport }) => {
@@ -6,6 +6,12 @@ const ResultsTable = ({ groupedData, onExport }) => {
   const [isExporting, setIsExporting] = useState(false)
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [groupedData])
 
   const handleExport = async () => {
     if (!groupedData || groupedData.length === 0) {
@@ -35,6 +41,25 @@ const ResultsTable = ({ groupedData, onExport }) => {
       ...prev,
       [groupId]: !prev[groupId]
     }))
+  }
+
+  const totalPages = Math.ceil(groupedData.length / pageSize)
+  const startItem = (currentPage - 1) * pageSize + 1
+  const endItem = Math.min(currentPage * pageSize, groupedData.length)
+
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize
+    return groupedData.slice(startIndex, startIndex + pageSize)
+  }, [groupedData, currentPage, pageSize])
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage)
+  }
+
+  const handlePageSizeChange = (e) => {
+    const newSize = parseInt(e.target.value)
+    setPageSize(newSize)
+    setCurrentPage(1)
   }
 
   if (!groupedData || groupedData.length === 0) {
@@ -91,7 +116,7 @@ const ResultsTable = ({ groupedData, onExport }) => {
             </tr>
           </thead>
           <tbody>
-            {groupedData.map((group) => {
+            {paginatedData.map((group) => {
               const isExpanded = expandedGroups[group.groupId]
 
               return (
@@ -100,13 +125,13 @@ const ResultsTable = ({ groupedData, onExport }) => {
                     <td>{group.groupId}</td>
                     <td>{group.colors.length}</td>
                     <td>
-                      {group.summary.L.min} - {group.summary.L.max} ({group.summary.L.range.toFixed(2)})
+                      {group.summary.L.min.toFixed(2)} - {group.summary.L.max.toFixed(2)} ({group.summary.L.range.toFixed(2)})
                     </td>
                     <td>
-                      {group.summary.a.min} - {group.summary.a.max} ({group.summary.a.range.toFixed(2)})
+                      {group.summary.a.min.toFixed(2)} - {group.summary.a.max.toFixed(2)} ({group.summary.a.range.toFixed(2)})
                     </td>
                     <td>
-                      {group.summary.b.min} - {group.summary.b.max} ({group.summary.b.range.toFixed(2)})
+                      {group.summary.b.min.toFixed(2)} - {group.summary.b.max.toFixed(2)} ({group.summary.b.range.toFixed(2)})
                     </td>
                     <td>
                       <button
@@ -134,9 +159,9 @@ const ResultsTable = ({ groupedData, onExport }) => {
                               {group.colors.map((color) => (
                                 <tr key={color.id}>
                                   <td>{color.reelNumber}</td>
-                                  <td>{color.L}</td>
-                                  <td>{color.a}</td>
-                                  <td>{color.b}</td>
+                                  <td>{color.L.toFixed(2)}</td>
+                                  <td>{color.a.toFixed(2)}</td>
+                                  <td>{color.b.toFixed(2)}</td>
                                 </tr>
                               ))}
                             </tbody>
@@ -150,6 +175,54 @@ const ResultsTable = ({ groupedData, onExport }) => {
             })}
           </tbody>
         </table>
+      </div>
+
+      <div className="pagination">
+        <div className="pagination-info">
+          <span className="pagination-text">
+            {startItem} to {endItem} of {groupedData.length}
+          </span>
+        </div>
+
+        <div className="pagination-controls">
+          <div className="pagination-nav">
+            <button
+              className="pagination-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+
+            <span className="page-number">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              className="pagination-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="pagination-size">
+            <label htmlFor="page-size">Rows per page:</label>
+            <select
+              id="page-size"
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              className="page-size-select"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   )
